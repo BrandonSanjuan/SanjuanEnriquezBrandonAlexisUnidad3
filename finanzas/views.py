@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
+
 from .forms import MovimientoForm
 from .models import Movimiento
 
@@ -56,9 +58,12 @@ def agregar_movimiento(request):
         {'form': form}
     )
 
+
 @login_required(login_url='/cuentas/login/')
+@require_POST
 def eliminar_movimiento(request, id):
-    movimiento = Movimiento.objects.get(
+    movimiento = get_object_or_404(
+        Movimiento,
         id=id,
         usuario=request.user
     )

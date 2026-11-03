@@ -269,9 +269,15 @@
                     <td>{{ movimiento.fecha|date:"d/m/Y" }}</td>
                     
                     <td>
-                        <a href="{% url 'eliminar_movimiento' movimiento.id %}">
-                            Eliminar
-                        </a>
+                        <form method="POST"
+                              action="{% url 'eliminar_movimiento' movimiento.id %}"
+                              style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    onclick="return confirm('¿Seguro que deseas eliminar este movimiento?');">
+                                Eliminar
+                            </button>
+                        </form>
                     </td>
 
                 </tr>
