@@ -5,6 +5,8 @@ from django.views.decorators.http import require_POST
 from .forms import MovimientoForm
 from .models import Movimiento
 
+import requests
+
 
 @login_required(login_url='/cuentas/login/')
 def inicio(request):
@@ -26,6 +28,25 @@ def inicio(request):
 
     saldo = ingresos - gastos
 
+    # Consulta del tipo de cambio mediante Frankfurter API
+    tipo_cambio = None
+    fecha_cambio = None
+
+    try:
+        respuesta = requests.get(
+            'https://api.frankfurter.dev/v1/latest?base=USD&symbols=MXN',
+            timeout=10
+        )
+        respuesta.raise_for_status()
+
+        datos = respuesta.json()
+        tipo_cambio = datos['rates']['MXN']
+        fecha_cambio = datos['date']
+
+    except (requests.RequestException, KeyError, ValueError):
+        tipo_cambio = None
+        fecha_cambio = None
+
     return render(
         request,
         'finanzas/inicio.html',
@@ -34,6 +55,8 @@ def inicio(request):
             'ingresos': ingresos,
             'gastos': gastos,
             'saldo': saldo,
+            'tipo_cambio': tipo_cambio,
+            'fecha_cambio': fecha_cambio,
         }
     )
 

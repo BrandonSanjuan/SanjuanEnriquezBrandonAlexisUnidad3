@@ -19,21 +19,23 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
+# Quick-start development settings
+# unsuitable for production
+# https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# Security: Secret Key
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     'django-insecure-solo-para-desarrollo-local'
 )
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Debug configuration
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 
+# Allowed Hosts
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
@@ -58,6 +60,8 @@ INSTALLED_APPS = [
 ]
 
 
+# Middleware
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -72,6 +76,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+
+# Templates
 
 TEMPLATES = [
     {
@@ -154,11 +160,14 @@ MAILERS = {
 }
 
 
-# Logout
+# Authentication redirects
 
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/cuentas/login/'
 
-# Cookies seguras en producción HTTPS
+
+# Security: Cookies seguros en producción HTTPS
+
 if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
