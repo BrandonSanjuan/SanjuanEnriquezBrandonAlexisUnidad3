@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 from .forms import MovimientoForm
 from .models import Movimiento
@@ -94,3 +95,24 @@ def eliminar_movimiento(request, id):
     movimiento.delete()
 
     return redirect('inicio')
+
+
+@login_required(login_url='/cuentas/login/')
+def api_movimientos(request):
+    # Consulta únicamente los movimientos del usuario autenticado (Privacidad y Seguridad)
+    movimientos = Movimiento.objects.filter(usuario=request.user).order_by('-fecha', '-id')
+    
+    # Convertimos los objetos de la base de datos en una lista de diccionarios para JSON
+    data = []
+    for m in movimientos:
+        data.append({
+            'id': m.id,
+            'concepto': m.concepto,
+            'monto': str(m.monto),  # Convertimos Decimal a string para evitar problemas de serialización JSON
+            'tipo': m.tipo,
+            'categoria': m.categoria,
+            'fecha': m.fecha.strftime('%Y-%m-%d'),
+            'descripcion': m.descripcion
+        })
+
+    return JsonResponse({'status': 'success', 'usuario': request.user.username, 'total_movimientos': len(data), 'movimientos': data})

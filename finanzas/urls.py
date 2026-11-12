@@ -14,4 +14,9 @@ urlpatterns = [
         views.eliminar_movimiento,
         name='eliminar_movimiento'
     ),
+    path(
+        'api/movimientos/',
+        views.api_movimientos,
+        name='api_movimientos'
+    ),
 ]
