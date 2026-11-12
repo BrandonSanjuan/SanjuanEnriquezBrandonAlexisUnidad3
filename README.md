@@ -46,42 +46,6 @@ FinanTrack es una aplicación web de administración financiera personal desarro
 
 ---
 
-## Estructura del Proyecto
-
-SanjuanEnriquezBrandonAlexisUnidad3/
-│
-├── config/
-│   ├── __init__.py
-│   ├── settings.py
-│   ├── urls.py
-│   ├── asgi.py
-│   └── wsgi.py
-│
-├── finanzas/
-│   ├── migrations/
-│   ├── templates/
-│   │   ├── finanzas/
-│   │   │   ├── agregar_movimiento.html
-│   │   │   └── inicio.html
-│   │   └── registration/
-│   │       ├── login.html
-│   │       └── logged_out.html
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-│
-├── manage.py
-├── .gitignore
-├── build.sh
-├── requirements.txt
-└── README.md
-
----
-
 ## Control de versiones y flujo de trabajo
 
 El proyecto utiliza Git para el control de cambios locales y GitHub como repositorio remoto. El flujo de desarrollo consistió en:
